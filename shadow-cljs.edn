@@ -1,0 +1,19 @@
+{:dependencies
+ [[reagent "1.1.1"]
+  [viebel/cljs-yaml "0.0.2"]
+  [camel-snake-kebab "0.4.3"]]
+
+ :source-paths
+ ["src" "test"]
+
+ :dev-http {8080 "public"}
+
+ :builds
+ {:app {:target     :browser
+        :output-dir "public/js"
+        :asset-path "/js"
+        :modules    {:main {#_#_:entries [yaml2detenv.main]
+                            :init-fn yaml2detenv.main/init}}
+
+        :release {:compiler-options {:optimizations :advanced
+                                     :infer-externs :auto}}}}}
