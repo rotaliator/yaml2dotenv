@@ -24,11 +24,12 @@
                   :value     (:yaml current-state)
                   :on-change #(swap! app-state assoc :yaml (.. % -target -value))}]
       [:label {:for "yaml"} ".env"]
-      [:textarea {:name  :dotenv
-                  :id    :dotenv
-                  :rows  20
-                  :cols  80
-                  :value (:dotenv current-state)}]
+      [:textarea {:name      :dotenv
+                  :id        :dotenv
+                  :rows      20
+                  :cols      80
+                  :value     (:dotenv current-state)
+                  :read-only true}]
       [:div.row
        [:button
         {:on-click on-convert}

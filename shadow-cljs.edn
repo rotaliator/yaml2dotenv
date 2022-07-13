@@ -3,7 +3,7 @@
   [viebel/cljs-yaml "0.0.2"]]
 
  :source-paths
- ["src" "test"]
+ ["src/main" "src/test"]
 
  :dev-http {8080 "public"}
 
@@ -14,4 +14,9 @@
         :modules    {:main {:init-fn yaml2detenv.main/init}}
 
         :release {:compiler-options {:optimizations :advanced
-                                     :infer-externs :auto}}}}}
+                                     :infer-externs :auto}}}
+  :test
+  {:target    :node-test
+   :output-to "out/node-tests.js"
+   :ns-regexp "-test$"
+   :autorun   true}}}
