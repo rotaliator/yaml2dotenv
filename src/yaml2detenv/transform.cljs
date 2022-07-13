@@ -1,7 +1,6 @@
 (ns yaml2detenv.transform
   (:require [clojure.string :as str]
-            [cljs-yaml.core :as yaml]
-            [camel-snake-kebab.core :as csk]))
+            [cljs-yaml.core :as yaml]))
 
 
 ;; https://andersmurphy.com/2019/11/30/clojure-flattening-key-paths.html
@@ -20,19 +19,21 @@
         (into {}))))
 
 
-(defn yaml2dotenv [yaml-content & {:keys [separator
-                                          to-camel-case?]
-                                   :or   {separator      "_"
-                                          to-camel-case? true}}]
+(defn yaml2dotenv [yaml-content]
   (let [[status deserialized]
         (-> yaml-content
             yaml/deserialize)]
     (if (= :ok status)
-      (let [flattened (update-keys (flatten-paths deserialized separator) name)]
-        (->> (if to-camel-case?
-               (update-keys flattened csk/->camelCaseString)
-               flattened)
-             (map #(str/join "=" %))
-             (sort)
-             (str/join "\n")))
+      (let [flattened
+            (-> deserialized
+                (flatten-paths "_")
+                (update-keys name)
+                (update-keys #(str/replace % #"-" ""))
+                (update-keys str/upper-case))
+            dotenv
+            (->> flattened
+                 (map #(str/join "=" %))
+                 (sort)
+                 (str/join "\n"))]
+        dotenv)
       deserialized)))
