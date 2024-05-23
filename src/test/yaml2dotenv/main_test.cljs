@@ -25,5 +25,5 @@ application:
              "APPLICATION_INTERNAL_APPINDEXURL=http://app:8080"
              "SPRING_CONFIG_ACTIVATE_ONPROFILE=test"]))
 
-(deftest a-failing-test
+(deftest basic-test
   (is (= (yaml2dotenv example-yaml) target-dotenv)))
